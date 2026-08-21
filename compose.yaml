@@ -2,8 +2,8 @@ services:
 
   frontend:
     build: 
-      context: ./frontend/docker
-      dockerfile: Dockerfile
+      context: ./frontend
+      dockerfile: docker/Dockerfile
     ports:
       - "5173:5173"
     volumes:
@@ -14,8 +14,8 @@ services:
 
   backend:
     build: 
-      context: ./backend/docker
-      dockerfile: Dockerfile
+      context: ./backend
+      dockerfile: docker/Dockerfile
     volumes:
       - ./backend:/app
       - backend_venv:/app/.venv
