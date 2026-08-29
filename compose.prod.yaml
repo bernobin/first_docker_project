@@ -2,33 +2,54 @@ services:
 
   frontend:
     build: 
-      context: ./frontend/docker
-      dockerfile: Dockerfile.prod
+      context: ./frontend
+      dockerfile: docker/Dockerfile.prod
     ports:
       - "8080:80"
+    depends_on:
+      - backend
 
   backend:
     build: 
-      context: ./backend/docker
-      dockerfile: Dockerfile.prod
+      context: ./backend
+      dockerfile: docker/Dockerfile.prod
+    secrets:
+      - db_user_password
     depends_on:
       db:
         condition: service_healthy
 
   db:
-    image: mysql:8.4
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: helloapp
-      MYSQL_USER: hello
-      MYSQL_PASSWORD: hellopassword
+    image: mysql:latest
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: helloapp
+      MYSQL_USER: hello
+      MYSQL_PASSWORD_FILE: /run/secrets/db_user_password
+    secrets:
+      - db_root_password
+      - db_user_password
     healthcheck:
-      test: ["CMD", "mysql", "-h", "localhost", "-uhello", "-phellopassword", "-e", "SELECT 1"]
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost"
+        ]
       interval: 5s
       timeout: 6s
       retries: 5
+
+secrets:
+  db_root_password:
+    file: ./secrets/db_root_password.txt
+  db_user_password:
+    file: ./secrets/db_user_password.txt
 
 volumes:
   mysql_data:
