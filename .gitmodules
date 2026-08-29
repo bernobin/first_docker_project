@@ -1,6 +1,6 @@
 [submodule "frontend"]
 	path = frontend
-	url = ./frontend
+	url = https://github.com/bernobin/first_docker_project-frontend.git
 [submodule "backend"]
 	path = backend
-	url = ./backend
+	url = https://github.com/bernobin/first_docker_project-backend.git
