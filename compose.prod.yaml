@@ -9,7 +9,7 @@ services:
 
   backend:
     build: 
-      context: ./backend
+      context: ./backend/docker
       dockerfile: Dockerfile.prod
     depends_on:
       db:

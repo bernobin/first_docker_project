@@ -1,0 +1,5 @@
+.env*
+secrets
+scripts
+bootstrap
+vault
