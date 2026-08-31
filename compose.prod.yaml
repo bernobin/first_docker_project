@@ -1,14 +1,14 @@
 services:
 
   frontend:
-    image: basicapp-frontend:arm64
+    image: bernobin/basicapp2-frontend:${APP_VERSION}
     ports:
       - "8080:80"
     depends_on:
       - backend
 
   backend:
-    image: basicapp-backend:arm64
+    image: bernobin/basicapp2-backend:${APP_VERSION}
     secrets:
       - db_user_password
     depends_on:

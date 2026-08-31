@@ -4,3 +4,4 @@ scripts
 bootstrap
 vault
 *.tar
+bin
