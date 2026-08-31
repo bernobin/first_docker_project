@@ -26,7 +26,7 @@ services:
         condition: service_healthy
 
   db:
-    image: mysql:latest
+    image: mysql:8.4
     volumes:
       - mysql_data:/var/lib/mysql
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
