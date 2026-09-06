@@ -14,8 +14,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
+      # migrate:
+      #   condition: service_completed_successfully
 
   migrate:
     image: bernobin/basicapp2-backend:${APP_VERSION}
