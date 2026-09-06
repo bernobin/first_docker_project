@@ -14,12 +14,24 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  migrate:
+    image: bernobin/basicapp2-backend:${APP_VERSION}
+    command: ["python", "migrate.py"]
+    secrets:
+      - db_user_password
+    depends_on:
+      db: 
+        condition: service_healthy
+
 
   db:
     image: mysql:8.4
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      # - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       MYSQL_DATABASE: helloapp
