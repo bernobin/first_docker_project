@@ -6,6 +6,7 @@ services:
       - "8080:80"
     depends_on:
       - backend
+    restart: unless-stopped
 
   backend:
     image: bernobin/basicapp2-backend:${APP_VERSION}
@@ -16,6 +17,7 @@ services:
         condition: service_healthy
       # migrate:
       #   condition: service_completed_successfully
+    restart: unless-stopped
 
   migrate:
     image: bernobin/basicapp2-backend:${APP_VERSION}
@@ -52,6 +54,7 @@ services:
       interval: 5s
       timeout: 6s
       retries: 5
+    restart: unless-stopped
 
 secrets:
   db_root_password:
